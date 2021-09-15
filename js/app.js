@@ -43,65 +43,67 @@ function mostrarError(mensaje) {
             alerta.remove()
         }, 2000);
     }
-  
-function consultarAPI(ciudad, pais) {
-    const appId = 'ddf50a82df0489b48deefa400018b3b8'
-    const url = `http://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appId}`
 
-    fetch(url)
-        .then(respuesta => respuesta.json())
-        .then(datos => {
+    function consultarAPI(ciudad, pais) {
+        const appId = 'ddf50a82df0489b48deefa400018b3b8'
+        const url = `http://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appId}`
 
-            console.log(datos);
-            limpiarHTML()
+        fetch(url)
+            .then(respuesta => respuesta.json())
+            .then(datos => {
 
-            if (datos.cod === '404') {
-                mostrarError('ciudad no encontrada');
-                return
-            }
-            //imprime la respuesta en html
-            mostrarclima(datos)
-        })
-}
+                console.log(datos);
+                limpiarHTML()
 
-function mostrarclima(datos) {
-    const { name, main: { temp, temp_max, temp_min } } = datos
-    const centigrados = kelvinACentigrados(temp)
-    const max = kelvinACentigrados(temp_max)
-    const min = kelvinACentigrados(temp_min)
-
-    const nombreCiudad = document.createElement('p')
-    nombreCiudad.textContent = `Clima en ${name}`
-    nombreCiudad.classList.add('font-bold', 'text-2xl')
-
-    const tempActual = document.createElement('p')
-    tempActual.innerHTML = `${centigrados} &#8451;`
-    tempActual.classList.add('font-bold', 'text-6xl')
-
-    const tempMaxima = document.createElement('p')
-    tempMaxima.innerHTML = `Max: ${max} &#8451;`
-    tempMaxima.classList.add('text-xl')
-
-    const tempMinima = document.createElement('p')
-    tempMinima.innerHTML = `Min: ${min} &#8451;`
-    tempMinima.classList.add('text-xl')
-
-
-    const resultadoDiv = document.createElement('div')
-    resultadoDiv.classList.add('text-center', 'text-white')
-    resultadoDiv.appendChild(nombreCiudad)
-    resultadoDiv.appendChild(tempActual)
-    resultadoDiv.appendChild(tempMaxima)
-    resultadoDiv.appendChild(tempMinima)
-
-    resultado.appendChild(resultadoDiv)
-}
-
-
-const kelvinACentigrados = grados => parseInt(grados - 273.15)
-
-
-function limpiarHTML() {
-    while (resultado.firstChild) {
-        resultado.removeChild(resultado.firstChild)
+                if (datos.cod === '404') {
+                    mostrarError('ciudad no encontrada');
+                    return
+                }
+                //imprime la respuesta en html
+                mostrarclima(datos)
+            })
     }
+
+    function mostrarclima(datos) {
+        const { name, main: { temp, temp_max, temp_min } } = datos
+        const centigrados = kelvinACentigrados(temp)
+        const max = kelvinACentigrados(temp_max)
+        const min = kelvinACentigrados(temp_min)
+
+        const nombreCiudad = document.createElement('p')
+        nombreCiudad.textContent = `Clima en ${name}`
+        nombreCiudad.classList.add('font-bold', 'text-2xl')
+
+        const tempActual = document.createElement('p')
+        tempActual.innerHTML = `${centigrados} &#8451;`
+        tempActual.classList.add('font-bold', 'text-6xl')
+
+        const tempMaxima = document.createElement('p')
+        tempMaxima.innerHTML = `Max: ${max} &#8451;`
+        tempMaxima.classList.add('text-xl')
+
+        const tempMinima = document.createElement('p')
+        tempMinima.innerHTML = `Min: ${min} &#8451;`
+        tempMinima.classList.add('text-xl')
+
+
+        const resultadoDiv = document.createElement('div')
+        resultadoDiv.classList.add('text-center', 'text-white')
+        resultadoDiv.appendChild(nombreCiudad)
+        resultadoDiv.appendChild(tempActual)
+        resultadoDiv.appendChild(tempMaxima)
+        resultadoDiv.appendChild(tempMinima)
+
+        resultado.appendChild(resultadoDiv)
+    }
+
+
+    const kelvinACentigrados = grados => parseInt(grados - 273.15)
+
+
+    function limpiarHTML() {
+        while (resultado.firstChild) {
+            resultado.removeChild(resultado.firstChild)
+        }
+    }
+}
